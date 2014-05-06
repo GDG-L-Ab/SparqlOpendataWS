@@ -16,6 +16,30 @@ public class SparqlQuery {
 				" } " + 
 				" ORDER BY ?resource ?value";
 		
+//		//init reader
+//		BufferedReader reader = null;
+//		String line = null;
+//		String sparqlQuery = "";
+//		try {
+//			File file = new File("C://sparqlQueryDbpedia.txt");
+//			reader = new BufferedReader(new FileReader(file));
+//			//defining SPARQL Query			
+//			
+//			//read line
+//			while((line = reader.readLine()) != null){				
+//				sparqlQuery = line;				
+//				System.out.println(sparqlQuery);
+//			}
+//		} catch (FileNotFoundException e) {			
+//			e.printStackTrace();
+//		}
+//		finally {
+//		    try {
+//		        reader.close();
+//		    } catch (IOException e) {
+//		        e.printStackTrace();
+//		    }
+//		}
 		return sparqlQueryString;
 	}
 }
