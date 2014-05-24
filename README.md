@@ -1,14 +1,26 @@
 SparqlOpendataWS
 ================
 
-SPARQL queries to the service endpoints open data
+SPARQL queries on the service endpoints open data
+
+
+Comments & Feedback
+================
+
+camelia.boban @ gmail.com
 
 Resources:
+
 jdk1.8.0
+
 eclipse Luna IDE for J2EE developers
+
 Apache Tomcat 8.0.5
+
 Axis2 1.6.2
+
 Apache Jena 2.11.1
+
   httpclient-4.2.3.jar
 	httpcore-4.2.2.jar
 	Jena-arq-2.11.1.jar
