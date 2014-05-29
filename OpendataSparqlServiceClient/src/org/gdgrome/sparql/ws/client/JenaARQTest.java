@@ -41,14 +41,6 @@ public class JenaARQTest {
 					   "omv:acronym ?acr; " +
 					   "omv:name ?name . " +
 					   "}";
-//		String query = 
-//				"SELECT ?resource ?value " +  
-//				"WHERE { " +  
-//					"?resource a <http://dbpedia.org/class/yago/CitiesAndTownsInAbruzzo> . " +  
-//					"?resource <http://dbpedia.org/property/populationTotal> ?value . " +  
-//					"FILTER (?value > 50000) " + 
-//					"} " + 
-//					"ORDER BY ?resource ?value";
 
 		JenaARQTest test = new JenaARQTest(sparqlService, apikey);
 		ResultSet results = test.executeQuery(query);
@@ -58,9 +50,6 @@ public class JenaARQTest {
 		      Literal name = soln.getLiteral("name") ;
 		      Literal acr = soln.getLiteral("acr") ;
 		      System.out.println(ontUri + " ---- " + name + " ---- " + acr);
-//		      RDFNode res = soln.get("resource") ;
-//		      Literal val = soln.getLiteral("value");		      
-//		      System.out.println(res + " ---- " + val);
 		    }
 	}
 }
