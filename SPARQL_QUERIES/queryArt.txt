@@ -1,0 +1,118 @@
+##sparql it.dbpedia.org - Benedetto Croce (Pescasseroli, 25 febbraio 1866 – Napoli, 20 novembre 1952) 
+
+##compositori delle colonne sonore di tutti i film di produzione italiana (B/N)
+SELECT * WHERE {
+ ?movie a                                            <http://dbpedia.org/ontology/Film> .
+ ?movie <http://dbpedia.org/ontology/country>        <http://it.dbpedia.org/resource/Italia> .
+ ?movie <http://dbpedia.org/ontology/filmColourType> ?colour .
+ FILTER ( ?colour in ("B/N"@it, "bianco/nero"@it ) )
+}
+
+===============================================================
+
+##compositori delle colonne sonore di tutti i film di produzione italiana (colore)
+##nati in una citta’ dell'Abruzzo con più di 10.000 abitanti
+SELECT * WHERE {
+ ?movie a                                            <http://dbpedia.org/ontology/Film> .
+ ?movie <http://dbpedia.org/ontology/country>        <http://it.dbpedia.org/resource/Italia> .
+ ?movie <http://dbpedia.org/ontology/filmColourType> ?colour .
+ ?movie <http://dbpedia.org/ontology/musicComposer>  ?composer .
+
+ ?composer   <http://dbpedia.org/ontology/birthPlace>             ?birthplace .
+ ?birthplace <http://dbpedia.org/ontology/administrativeDistrict> <http://it.dbpedia.org/resource/Abruzzo> .
+ ?birthplace <http://dbpedia.org/ontology/populationTotal>        ?population
+ FILTER ( ?colour in ("colore"@it) AND ?population > 10000 )
+}
+
+===============================================================
+
+##tutte le persone di nazionalita’ italiana che abbiano 
+##un nome e cognome espressi come letterali
+SELECT * WHERE {
+  ?p a <http://dbpedia.org/ontology/Person> .
+  ?p <http://it.dbpedia.org/property/nome> ?name .
+  ?p <http://it.dbpedia.org/property/cognome> ?surname .
+  ?p <http://it.dbpedia.org/property/nazionalità>  "italiana"@it .
+
+  FILTER( isLiteral(?name) AND isLiteral(?surname) )
+}
+
+===============================================================
+
+##tutte le persone di nazionalita’ italiana che abbiano 
+##un nome e cognome espressi come letterali e sono cantanti
+SELECT * WHERE {
+  ?person a <http://dbpedia.org/ontology/Person> .
+  ?person <http://it.dbpedia.org/property/nome> ?name .
+  ?person <http://it.dbpedia.org/property/cognome> ?surname .
+  ?p <http://it.dbpedia.org/property/nazionalità> "italiana"@it .
+  ?person <http://it.dbpedia.org/property/attività> "cantante"@it .
+
+  ##FILTER( isLiteral(?name) AND isLiteral(?surname) )
+  FILTER( isLiteral(?name) AND isLiteral(?surname))
+}
+
+===============================================================
+
+##tutte le persone di nazionalita’ italiana che abbiano 
+##un nome e cognome espressi come letterali e sono cantanti di sesso femminile
+SELECT * WHERE {
+  ?person a <http://dbpedia.org/ontology/Person> .
+  ?person <http://it.dbpedia.org/property/nome> ?name .
+  ?person <http://it.dbpedia.org/property/cognome> ?surname .
+  ?p <http://it.dbpedia.org/property/nazionalità> "italiana"@it .
+  ?person <http://it.dbpedia.org/property/attività> "cantante"@it .
+  ?person <http://it.dbpedia.org/property/sesso> "F"@it .
+
+  FILTER( isLiteral(?name) AND isLiteral(?surname))
+}
+
+===============================================================
+
+##tutte le persone di nazionalita’ italiana che abbiano 
+##un nome e cognome espressi come letterali e sono filosofi maschi
+##nati dopo il 1800
+SELECT * WHERE {
+  ?person a <http://dbpedia.org/ontology/Person> .
+  ?person <http://it.dbpedia.org/property/nome> ?name .
+  ?person <http://it.dbpedia.org/property/cognome> ?surname .
+  ?p <http://it.dbpedia.org/property/nazionalità> "italiana"@it .
+  ?person <http://it.dbpedia.org/property/professione> "filosofo"@it .
+  ?person <http://it.dbpedia.org/property/sesso> "M"@it .
+  ?person <http://dbpedia.org/ontology/birthYear> ?birth .
+
+  FILTER( isLiteral(?name) AND isLiteral(?surname) AND ?birth >= "1800-01-01"^^xsd:date)   
+}
+
+===============================================================
+
+##e sono nati in una città con < 40.000 abitanti
+SELECT * WHERE {
+  ?person a <http://dbpedia.org/ontology/Person> .
+  ?person <http://it.dbpedia.org/property/nome> ?name .
+  ?person <http://it.dbpedia.org/property/cognome> ?surname .
+  ?p <http://it.dbpedia.org/property/nazionalità> "italiana"@it .
+  ?person <http://it.dbpedia.org/property/professione> "filosofo"@it .
+  ?person <http://it.dbpedia.org/property/sesso> "M"@it .
+  ?person <http://dbpedia.org/ontology/birthYear> ?birth .
+  ?person <http://dbpedia.org/ontology/birthPlace> ?city .
+  ?city a <http://dbpedia.org/ontology/PopulatedPlace> .
+  ?city rdfs:label ?birthplace .
+  ?city <http://dbpedia.org/ontology/populationTotal> ?population .
+
+  FILTER( isLiteral(?name) AND isLiteral(?surname) 
+    AND ?birth >= "1800-01-01"^^xsd:date 
+    AND ?population < 40000)   
+}
+
+===============================================================
+
+##filosofo e storico del '800, con il cognome di 5 lettere
+SELECT str(?surname), ?p WHERE {
+  ?p a <http://dbpedia.org/ontology/Person> . 
+  ?p <http://it.dbpedia.org/property/attività> "filosofo"@it .
+  ?p <http://it.dbpedia.org/property/attività> "storico"@it .
+  ?p <http://it.dbpedia.org/property/epoca>    "1800"^^xsd:int .
+  ?p <http://xmlns.com/foaf/0.1/surname>       ?surname
+  FILTER( strlen(?surname) = 5 )
+}

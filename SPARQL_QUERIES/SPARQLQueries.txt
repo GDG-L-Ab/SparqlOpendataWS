@@ -1,0 +1,97 @@
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX txn:  <http://lod.taxonconcept.org/ontology/txn.owl#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+PREFIX dbpedia: <http://dbpedia.org/>
+PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>
+PREFIX dbpedia-res:  <http://dbpedia.org/resource/>
+PREFIX dbpprop: <http://dbpedia.org/property/>
+
+===============================================================
+dcterms:subject == Wikipedia Category
+a == rdf:type
+rdfs:comment
+rdfs:label
+
+
+##città in Abruzzo con più di 50000 abitanti
+PREFIX class: <http://dbpedia.org/class/yago/CitiesAndTownsInAbruzzo> 
+PREFIX property: <http://dbpedia.org/property/populationTotal> 
+SELECT ?resource ?value  
+ WHERE {  
+ ?resource rdf:type <http://dbpedia.org/class/yago/CitiesAndTownsInAbruzzo> .  
+ ?resource <http://dbpedia.org/property/populationTotal> ?value .  
+ FILTER (?value > 50000) 
+	} 
+ ORDER BY ?resource ?value
+
+=============================================================== 
+##le montagne della Categoria Mountain, con l'abstarct e l'immagine - it.dbpedia.org
+PREFIX dbpowl: <http://dbpedia.org/ontology/>
+select * where {
+  ?mountain a dbpowl:Mountain ;
+            dbpowl:abstract ?abstract ;
+            foaf:depiction ?depiction .
+  FILTER(langMatches(lang(?abstract),"IT"))
+}
+LIMIT 10
+
+=============================================================== 
+
+ 
+ ##geoccordinate Torre Eiffel
+PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+SELECT ?subject ?label ?lat ?long 
+WHERE {
+ <http://dbpedia.org/resource/Eiffel_Tower> geo:lat ?eiffelLat.
+ <http://dbpedia.org/resource/Eiffel_Tower> geo:long ?eiffelLong.
+ ?subject geo:lat ?lat.
+ ?subject geo:long ?long.
+ ?subject rdfs:label ?label.
+ FILTER(?lat - ?eiffelLat <= 0.05 && ?eiffelLat - ?lat <= 0.05 &&
+ ?long - ?eiffelLong <= 0.05 && ?eiffelLong - ?long <= 0.05 &&
+ lang(?label) = "en"
+).
+} LIMIT 20
+
+===============================================================
+
+##una persona, che oltre a filosofo era anche politico, 
+##vissuto nel 1800 che ha il cognome formato da 5 lettere
+SELECT str(?surname), ?p WHERE {
+  ?p a <http://dbpedia.org/ontology/Person> . 
+  ?p <http://it.dbpedia.org/property/attività> "filosofo"@it .
+  ?p <http://it.dbpedia.org/property/attività> "politico"@it .
+  ?p <http://it.dbpedia.org/property/epoca>    "1800"^^xsd:int .
+  ?p <http://xmlns.com/foaf/0.1/surname>       ?surname
+  FILTER( strlen(?surname) = 5 )
+}
+
+===============================================================
+
+##
+PREFIX owl: <http://www.w3.org/2002/07/owl#> 
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> 
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+PREFIX foaf: <http://xmlns.com/foaf/0.1/> 
+PREFIX dc: <http://purl.org/dc/elements/1.1/> 
+PREFIX : <http://dbpedia.org/resource/> 
+PREFIX dbpedia2: <http://dbpedia.org/property/> 
+PREFIX dbpedia: <http://dbpedia.org/> 
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#> 
+PREFIX dbo: <http://dbpedia.org/ontology/> 
+SELECT ?f ?l ?a 
+WHERE { 
+?f rdf:type dbo:Film . 
+?f rdfs:label ?l . 
+?f dbo:abstract ?a 
+FILTER (regex (?l, "Batman Begins", "i") && (lang(?l) = lang(?a))) 
+} 
+ORDER BY lang(?l) 

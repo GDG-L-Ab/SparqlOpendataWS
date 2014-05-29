@@ -1,0 +1,8 @@
+##tutte le proprietà del soggetto Corno_Grande che hanno valore
+SELECT ?property ?hasValue 
+WHERE {
+  <http://dbpedia.org/resource/Corno_Grande> ?property ?hasValue 
+}
+
+==============================================================================
+

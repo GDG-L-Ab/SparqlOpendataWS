@@ -1,0 +1,146 @@
+##abstract della pagina wikipedia di Benedetto Croce in en
+
+SELECT ?abstract 
+WHERE {  
+   <http://dbpedia.org/resource/Benedetto_Croce> <http://dbpedia.org/ontology/abstract> ?abstract .
+  FILTER  langMatches( lang(?abstract), 'en').
+} LIMIT 100
+
+-------------------------------------------------------------
+
+##ricerca Benedetto Croce by label - no
+PREFIX : <http://dbpedia.org/resource/> 
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+ 
+SELECT ?s WHERE { 
+  ?s rdfs:label "Croce" 
+} 
+
+##in francese - no
+PREFIX : <http://dbpedia.org/resource/> 
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+ 
+SELECT ?s WHERE { 
+  ?s rdfs:label "Croce"@fr 
+} 
+
+##label di Benedetto Croce - si
+PREFIX res: <http://dbpedia.org/resource/> 
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+PREFIX owl: <http://dbpedia.org/ontology/> 
+SELECT ?label WHERE { 
+  res:Benedetto_Croce rdfs:label ?label 
+} 
+
+##label di Benedetto Croce in ita - si
+PREFIX dbo: <http://dbpedia.org/ontology/> 
+ 
+SELECT ?l WHERE { 
+  :Benedetto_Croce rdfs:label ?l . 
+FILTER (lang(?l) = "it") 
+} 
+
+##label e abstract di Benedetto Croce - si
+PREFIX res: <http://dbpedia.org/resource/> 
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+PREFIX owl: <http://dbpedia.org/ontology/>
+ 
+SELECT ?label ?abstract 
+WHERE { 
+  res:Benedetto_Croce rdfs:label ?label ;                    
+                      owl:abstract ?abstract                 				  
+}
+--------------------------------------------------------------
+
+##nome e abstract Benedetto Croce in en - si
+PREFIX prop: <http://dbpedia.org/property/>
+
+SELECT ?name ?abstract 
+WHERE {
+  <http://dbpedia.org/resource/Benedetto_Croce> prop:name ?name .
+  <http://dbpedia.org/resource/Benedetto_Croce> <http://dbpedia.org/ontology/abstract> ?abstract .
+  FILTER  langMatches( lang(?abstract), 'en').
+} LIMIT 100
+
+
+--------------------------------------------------------------
+
+##Benedetto Croce in en - fa vedere altri risultati
+PREFIX prop: <http://dbpedia.org/property/>
+PREFIX res:<http://dbpedia.org/resource/Benedetto_Croce>
+PREFIX owl:<http://dbpedia.org/ontology/>
+
+SELECT ?name ?birth_place ?abstract 
+WHERE {
+  ?res prop:name ?name .
+  ?res prop:name ?birth_place .
+  ?res owl:abstract ?abstract .
+  FILTER  langMatches( lang(?abstract), 'en').
+} LIMIT 10
+
+
+##Benedetto Croce in en
+SELECT ?name ?birth_place ?abstract 
+WHERE {
+  <http://dbpedia.org/resource/Benedetto_Croce> <http://dbpedia.org/property/> ?name .
+  <http://dbpedia.org/resource/Benedetto_Croce> <http://dbpedia.org/property/> ?birth_place .
+  <http://dbpedia.org/resource/Benedetto_Croce> <http://dbpedia.org/ontology/abstract> ?abstract .
+  FILTER  langMatches( lang(?abstract), 'en').
+} LIMIT 100
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##link a pagine (ma che non c'entrano con Croce)
+PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+PREFIX page: <http://dbpedia.org/resource/Benedetto_Croce>
+
+SELECT ?page
+WHERE {  
+   ?page <http://dbpedia.org/ontology/abstract> ?abstract .
+  FILTER  langMatches( lang(?abstract), 'en').
+} LIMIT 100
+
+
+-------------------------------------------------------------
+
+##abstract dei link a pagine (ma che non c'entrano con Croce)
+PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+PREFIX page: <http://dbpedia.org/resource/Benedetto_Croce>
+
+SELECT ?abstract
+WHERE {  
+   ?page <http://dbpedia.org/ontology/abstract> ?abstract .
+  FILTER  langMatches( lang(?abstract), 'en').
+} LIMIT 100
+
+
+--------------------------------------------------------------
+
+##
+PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+PREFIX page: <http://dbpedia.org/resource/Benedetto_Croce>
+
+SELECT ?page
+WHERE {  
+   ?page <http://dbpedia.org/ontology/abstract> ?abstract .
+  FILTER  langMatches( lang(?abstract), 'en').
+} LIMIT 100

@@ -1,0 +1,63 @@
+Category Wikipedia -> dcterms:subject Sparql
+
+==============================================================================
+
+##dammi tutte le proprietà del soggetto Mountain
+SELECT ?p ?o
+WHERE {
+ <http://dbpedia.org/ontology/Mountain> ?p ?o 
+}
+
+==============================================================================
+
+##dammi tutte le proprietà del soggetto Mountain che hanno valore
+SELECT ?property ?hasValue 
+WHERE {
+  <http://dbpedia.org/resource/Mountain> ?property ?hasValue 
+}
+
+==============================================================================
+
+
+##il link e la descrizione di tutti gli oggetti montagna
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT DISTINCT ?name ?description
+WHERE {
+  ?name rdf:type <http://dbpedia.org/ontology/Mountain>;
+        dbpedia-owl:abstract ?description .
+}
+
+==============================================================================
+
+##tutte le montagne con un abstract in inglese che hanno almeno una foto
+select * where {
+  ?mountain a dbpedia-owl:Mountain ;
+            dbpedia-owl:abstract ?abstract ;
+            foaf:depiction ?depiction .
+  FILTER(langMatches(lang(?abstract),"EN"))
+}
+LIMIT 10
+
+==============================================================================
+
+##tutte le montagne con un abstract in inglese che hanno almeno una foto 
+##e che sono almeno uno dei posti più alti
+select * where {
+  ?mountain a dbpedia-owl:Mountain ;
+            dbpedia-owl:abstract ?abstract ;
+            foaf:depiction ?depiction .
+  ?range a dbpedia-owl:MountainRange ;
+         dbpedia-owl:highestPlace ?mountain .
+  FILTER(langMatches(lang(?abstract),"EN"))
+}
+
+==============================================================================
+
+##tutte le montagne che sono il più alto posto di un range
+select * where {
+  ?mountain a dbpedia-owl:Mountain .
+  ?range a dbpedia-owl:MountainRange ;
+         dbpedia-owl:highestPlace ?mountain .
+}
+LIMIT 10

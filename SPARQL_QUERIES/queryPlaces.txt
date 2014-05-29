@@ -1,0 +1,70 @@
+##dbpedia.org/sparql
+
+##tutti i paesi europei
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX yago: <http://dbpedia.org/class/yago/>
+PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>
+ 
+SELECT ?place WHERE {
+    ?place rdf:type yago:EuropeanCountries .
+    ?place rdf:type dbpedia-owl:Country
+}
+
+===============================================================
+
+##e le loro capitali
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX yago: <http://dbpedia.org/class/yago/>
+PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>
+ 
+SELECT ?place ?capital WHERE {
+    ?place rdf:type yago:EuropeanCountries .
+    ?place rdf:type dbpedia-owl:Country ;
+      dbpedia-owl:capital ?capital.
+}
+
+
+===============================================================
+
+##e l'area totale
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX yago: <http://dbpedia.org/class/yago/>
+PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>
+ 
+SELECT ?place ?capital ?area  WHERE {
+    ?place rdf:type yago:EuropeanCountries .
+    ?place rdf:type dbpedia-owl:Country ;
+      dbpedia-owl:capital ?capital;
+      dbpedia-owl:areaTotal ?area .
+}
+
+===============================================================
+
+##che hanno una densità tra i 50 ed i 100 ab/kmq
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX yago: <http://dbpedia.org/class/yago/>
+PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>
+ 
+SELECT ?place ?capital ?density WHERE {
+    ?place rdf:type yago:EuropeanCountries .
+    ?place rdf:type dbpedia-owl:Country ;
+      dbpedia-owl:capital ?capital;
+      dbpedia-owl:populationDensity ?density.
+      FILTER(?density > 50 AND ?density <= 100)
+}
+
+===============================================================
+
+##e con il title, lat e long
+##ordinate per nome      
+SELECT ?place ?capital ?density ?title (MIN(?geolat) AS ?geolat) (MIN(?geolong) AS ?geolong) WHERE {
+    ?place rdf:type yago:EuropeanCountries .
+    ?place foaf:name ?title .
+    ?place geo:lat ?geolat .
+    ?place geo:long ?geolong .
+    ?place rdf:type dbpedia-owl:Country ;
+      dbpedia-owl:capital ?capital;
+      dbpedia-owl:populationDensity ?density.
+      FILTER(?density > 50 AND ?density <= 100)
+}
+ORDER BY ?place
