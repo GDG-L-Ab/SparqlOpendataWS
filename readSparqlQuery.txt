@@ -1,0 +1,9 @@
+PREFIX class: <http://dbpedia.org/class/yago/CitiesAndTownsInAbruzzo> 
+PREFIX property: <http://dbpedia.org/property/populationTotal> 
+SELECT ?resource ?value  
+ WHERE {  
+ ?resource a <http://dbpedia.org/class/yago/CitiesAndTownsInAbruzzo> .  
+ ?resource <http://dbpedia.org/property/populationTotal> ?value .  
+ FILTER (?value > 50000) 
+	} 
+ ORDER BY ?resource ?value
